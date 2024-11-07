@@ -1,120 +1,106 @@
-# 1. Configuração do Ambiente
-Para começar, você precisará de algumas bibliotecas compatíveis com reconhecimento facial e o sistema web. As principais são:
+# 📸 Reconhecimento Facial para Chamada de Alunos
+Este projeto foi desenvolvido para modernizar o sistema de chamada de alunos nas salas de aula utilizando **reconhecimento facial.** Com uma interface web, os professores podem cadastrar e gerenciar imagens, e os alunos têm suas entradas avaliadas por meio de reconhecimento facial via webcam.
 
-Django para o backend.
-Streamlit para a interface web.
-OpenCV e face_recognition para o reconhecimento facial.
-Pillow para lidar com imagens.
+## 📋 Funcionalidades
 
-Verificando Compatibilidade
-Na versão 3.11.9 do Python:
+<li> Cadastro de Alunos: Sistema de cadastro de fotos e informações de alunos. </li>
+<li> Reconhecimento Facial em Tempo Real: Avaliação de entrada para identificar alunos em tempo real. </li>
+<li> Gestão via Interface Web: Streamlit oferece uma interface intuitiva para professores e administradores. </li>
+<li> API REST: Implementação com Django Rest Framework para operações de CRUD de alunos. </li>
 
-Django (versão 4.1 e superiores) é compatível.
-Streamlit (versão 1.19 ou superior) funciona bem.
-OpenCV e face_recognition também são compatíveis, mas vale lembrar que o face_recognition usa o dlib, que pode precisar de alguns ajustes no ambiente para funcionar corretamente.
+## 🔧 1. Configuração do Ambiente
+> [!WARNING]
+> Para configurar o ambiente de desenvolvimento, siga as etapas abaixo.
 
-#Intalações
-Execute este comando para instalar as bibliotecas necessárias
+<li> Python 3.11.9 (ou versão compatível) </li>
+<li> Django para backend </li>
+<li> Streamlit para interface web </li>
+<li> OpenCV e face_recognition para reconhecimento facial </li>
+<li> Pillow para manipulação de imagens </li>
 
-´´´bash
-pip install django streamlit opencv-python face-recognition pillow
-´´´
-Instalar o Django Rest Framework para API
-´´´bash
-pip install djangorestframework
-´´´
-´´´ bash
-pip install face_recognition
-´´´
+# 📦 2. Instalação das Bibliotecas Necessárias
+Use o comando abaixo para instalar todas as bibliotecas requeridas de uma vez:
 
-# Passo 2: Criar um Ambiente Virtual
-No Windows, é uma boa prática usar um ambiente virtual para isolar as dependências do projeto. No Prompt de Comando, navegue até o diretório onde você deseja criar o projeto e execute:
+```
+pip install django streamlit opencv-python face-recognition pillow djangorestframework requests
+```
 
-´´´´bash
-python -m venv nome_do_ambiente
-´´´
+## 🖥️ 2.1 Configuração do Ambiente Virtual
+> [!IMPORTANT]
+> Recomenda-se criar um ambiente virtual para isolar as dependências do projeto (principalmente se estiver executando no Windows).
 
-Substitua nome_do_ambiente por algo que faça sentido, como env ou venv. Em seguida, ative o ambiente virtual com:
-
-´´´bash
-nome_do_ambiente\Scripts\activate
-´´´
-#3 Se ocorrer erro com o terminal do VsCode ou do Windows:
-
-Se o terminal do VS Code está configurado para o PowerShell, você pode alterar a política de execução diretamente nele.
-
-No terminal do PowerShell, execute o comando abaixo para permitir a execução de scripts locais:
-
-powershell
-´´´bash
-Set-ExecutionPolicy RemoteSigned -Scope Process
-´´´
-Em seguida, ative o ambiente virtual com:
-
-´´´bash
-nome_do_ambiente\Scripts\activate
-´´´
-
-#Django
-Crie o projeto e o aplicativo Django:
-´´´bash
+```
+python -m venv ambiente
+```
+Em seguida, ative o ambiente:
+```
+ambiente\Scripts\activate
+```
+## 🚀 2.2 Configuração do Projeto Django
+> [!IMPORTANT]
+> Se estiver usando o PowerShell no VS Code, execute o comando abaixo para permitir a execução de scripts:
+```
 django-admin startproject projeto_facial
 cd projeto_facial
 python manage.py startapp entrada
-´´´
+```
 
-Passo 3: Registrar o Aplicativo no Projeto
-Para que o Django reconheça o novo aplicativo entrada, adicione-o ao arquivo de configurações (settings.py).
+## 🛠️ 2.3 Preparação do Sistema para dlib
+Algumas dependências adicionais são necessárias para o funcionamento do dlib:
 
-Abra o arquivo settings.py que está na pasta projeto_facial/projeto_facial/.
+### 2.3.1 Visual C++ Build Tools: Instale as ferramentas de compilação C++.
 
+> https://visualstudio.microsoft.com/pt-br/downloads/?q=build+tools  <br>  <br>
+![Mapa dos Terremotos](visual.png)
 
-Agora que a estrutura básica está configurada, você pode rodar o servidor de desenvolvimento para verificar se tudo está funcionando corretamente:
-
-´´´bash
-python manage.py runserver
-´´´
-Abra o navegador e acesse http://127.0.0.1:8000/. Se tudo estiver certo, você verá a mensagem "Bem-vindo ao sistema de reconhecimento facial!".
-
-Solução 1: Instalar os Pré-requisitos do dlib
-Antes de tentar instalar o dlib, verifique se você tem os seguintes pré-requisitos instalados no seu sistema:
-
-Instalar o Visual C++ Build Tools: O dlib requer as ferramentas de compilação do Visual C++ para compilar o código C++ que ele utiliza. Para instalar o Visual C++ Build Tools, siga os passos abaixo:
-
-Baixe e instale o Microsoft Visual C++ Build Tools.
-Durante a instalação, certifique-se de marcar a opção "Desktop development with C++", que inclui os compiladores necessários.
-
-Instalar o cmake: O dlib também depende do cmake para ser compilado. Instale o cmake com o seguinte comando:
-
-bash
-Copiar código
+### 2.3.2 CMake: 
+Instale o CMake com o comando:
+```
 pip install cmake
+```
 
-einstalar o dlib: Após a instalação do cmake e do Visual C++ Build Tools, tente instalar novamente o dlib:
+### 2.3.3 Dlib
+Após instalar os pré-requisitos, instale o dlib:
+```
 pip install dlib
+```
 
-baixar dlin: pip install "C:\Users\leticia.lima\Documents\Projeto ´´´bash
-Facial\dlib-19.22.99-cp39-cp39-win_amd64.whl"
- ´´´
-Passos para enviar a foto para o servidor:
-Certifique-se de que o servidor Django está em execução, e a URL de reconhecimento facial (definida como /reconhecer/) esteja funcionando corretamente.
+Se enfrentar problemas, você pode baixar e instalar o .whl compatível:
+```
+pip install "C:\Users\(usuario)\(caminho_whl)\dlib-19.22.99-cp39-cp39-win_amd64.whl"
+```
+Exemplo de como deve ficar: pip install "C:\Users\leticia.lima\Documents\Projeto Facial\dlib-19.22.99-cp39-cp39-win_amd64.whl"
 
-Instale a biblioteca requests no seu ambiente, caso não tenha feito isso ainda:
+> Substitua o "(usuario)" pelo seu usuário. Exemplo: leticia.lima <br>
+> Substitua o "(caminho_whl)" pelo caminho em que salvou o arquivo "dlib-19.22.99-cp39-cp39-win_amd64.whl"
 
-´´´bash
+## 🐍 2.4. Executando o Servidor Django
+Inicie o servidor de desenvolvimento do Django:
+```
+python manage.py runserver
+```
+Acesse o endereço http://127.0.0.1:8000/ para verificar se o sistema está funcionando.
+
+## 🖼️3 Enviando Fotos para o Reconhecimento
+Para enviar fotos ao servidor:
+
+> [!WARNING]  
+> Certifique-se de que o servidor está ativo.
+
+Use a biblioteca requests para enviar imagens ao endpoint /reconhecer/.
+```
 pip install requests
-´´´
-
-
-Instalação da biblioteca requests:
-pip install requests
-
-Executando o script:
+```
+Execute o script de envio de fotos:
+```
 python enviar_foto.py
+```
+## 2.5. 🔑 Criar suário base de dados Django
+```
+python manage.py createsuperuser
+```
 
 
-abrir o django web
-- http://127.0.0.1:8000/admin/
-
-Acessando a API de Alunos
-http://127.0.0.1:8000/api/alunos/
+# 🔗 Links Úteis
+<li> Django Admin: http://127.0.0.1:8000/admin/ </li>
+<li> API de Alunos: http://127.0.0.1:8000/api/alunos/ </li>
