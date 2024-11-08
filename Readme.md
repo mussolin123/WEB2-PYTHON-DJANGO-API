@@ -100,6 +100,9 @@ python enviar_foto.py
 python manage.py createsuperuser
 ```
 
+Orientações professor 08/11/2024
+
+
 
 # 🔗 Links Úteis
 <li> Django Admin: http://127.0.0.1:8000/admin/ </li>
