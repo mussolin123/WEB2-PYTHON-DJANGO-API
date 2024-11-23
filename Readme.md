@@ -51,7 +51,6 @@ Algumas dependências adicionais são necessárias para o funcionamento do dlib:
 ### 2.3.1 Visual C++ Build Tools: Instale as ferramentas de compilação C++.
 
 > https://visualstudio.microsoft.com/pt-br/downloads/?q=build+tools  <br>  <br>
-![Mapa dos Terremotos](visual.png)
 
 ### 2.3.2 CMake: 
 Instale o CMake com o comando:
